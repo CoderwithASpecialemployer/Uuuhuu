@@ -1,62 +1,27 @@
 // Dark Mode Toggle mit Speicherung
 const modeBtn = document.getElementById("modeBtn");
 const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-const storedTheme = localStorage.getItem("theme");
-if (storedTheme === "dark" || (!storedTheme && prefersDark)) {
-  enableDark();
-} else {
-  disableDark();
-}
-modeBtn.addEventListener("click", () => {
-  document.body.classList.contains("dark") ? disableDark() : enableDark();
-});
-function enableDark() {
-  document.body.classList.add("dark");
-  modeBtn.textContent = "☀️";
-  localStorage.setItem("theme", "dark");
-}
-function disableDark() {
-  document.body.classList.remove("dark");
-  modeBtn.textContent = "🌙";
-  localStorage.setItem("theme", "light");
-}
+const stored = localStorage.getItem("theme");
+if (stored==="dark"||(!stored&&prefersDark)) enableDark(); else disableDark();
+modeBtn.addEventListener("click",()=>document.body.classList.toggle("dark")?enableDark():disableDark());
+function enableDark(){ document.body.classList.add("dark"); modeBtn.textContent="☀️"; localStorage.setItem("theme","dark"); }
+function disableDark(){ document.body.classList.remove("dark"); modeBtn.textContent="🌙"; localStorage.setItem("theme","light"); }
 
-// Scroll‑Reveal Animation
-const revealEls = document.querySelectorAll(".reveal");
-function handleReveal() {
-  const winH = window.innerHeight;
-  revealEls.forEach(el => {
-    if (el.getBoundingClientRect().top < winH - 100) {
-      el.classList.add("visible");
-    }
-  });
-}
-window.addEventListener("scroll", handleReveal);
-window.addEventListener("load", handleReveal);
+// Scroll‑Reveal
+const els = document.querySelectorAll(".reveal");
+function revealOnScroll(){ const h=window.innerHeight; els.forEach(e=>{ if(e.getBoundingClientRect().top<h-100) e.classList.add("visible"); }); }
+window.addEventListener("scroll",revealOnScroll);
+window.addEventListener("load",revealOnScroll);
 
-// Back‑to‑Top Button
-const toTop = document.getElementById("toTop");
-window.addEventListener("scroll", () => {
-  toTop.style.display = window.scrollY > 300 ? "flex" : "none";
-});
-toTop.addEventListener("click", () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-});
+// Back‑to‑Top
+const toTop=document.getElementById("toTop");
+window.addEventListener("scroll",()=>toTop.style.display=window.scrollY>300?"flex":"none");
+toTop.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
 
 // Stats Counter
-window.addEventListener("load", () => {
-  document.querySelectorAll(".num").forEach(counter => {
-    const target = +counter.dataset.target;
-    const step = target / 50;
-    const update = () => {
-      const current = +counter.innerText;
-      if (current < target) {
-        counter.innerText = Math.ceil(current + step);
-        setTimeout(update, 40);
-      } else {
-        counter.innerText = target;
-      }
-    };
-    update();
+window.addEventListener("load",()=>{
+  document.querySelectorAll(".num").forEach(c=>{
+    const tgt=+c.dataset.target, step=tgt/50;
+    (function u(){ let cur=+c.innerText; if(cur<tgt){ c.innerText=Math.ceil(cur+step); setTimeout(u,40); } else c.innerText=tgt; })();
   });
 });
