@@ -1,4 +1,3 @@
-
 // Dark Mode Toggle
 const modeBtn = document.getElementById("modeBtn");
 modeBtn.addEventListener("click", () => {
@@ -13,9 +12,7 @@ const revealOnScroll = () => {
   const windowHeight = window.innerHeight;
   revealElements.forEach((el) => {
     const elementTop = el.getBoundingClientRect().top;
-    if (elementTop < windowHeight - 100) {
-      el.classList.add("visible");
-    }
+    if (elementTop < windowHeight - 100) el.classList.add("visible");
   });
 };
 
@@ -25,13 +22,29 @@ window.addEventListener("load", revealOnScroll);
 // "Nach oben"-Button
 const toTopBtn = document.getElementById("toTop");
 window.addEventListener("scroll", () => {
-  if (window.scrollY > 300) {
-    toTopBtn.style.display = "block";
-  } else {
-    toTopBtn.style.display = "none";
-  }
+  toTopBtn.style.display = window.scrollY > 300 ? "block" : "none";
 });
 
-toTopBtn.addEventListener("click", () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-});
+toTopBtn.addEventListener("click", () =>
+  window.scrollTo({ top: 0, behavior: "smooth" })
+);
+
+// Zähler (Stats) animieren
+const counters = document.querySelectorAll(".num");
+const runCounter = () => {
+  counters.forEach(counter => {
+    const update = () => {
+      const target = +counter.dataset.target;
+      const current = +counter.innerText;
+      const increment = target / 50;
+      if (current < target) {
+        counter.innerText = Math.ceil(current + increment);
+        setTimeout(update, 40);
+      } else {
+        counter.innerText = target;
+      }
+    };
+    update();
+  });
+};
+window.addEventListener("load", runCounter);
