@@ -197,7 +197,7 @@ body.dark .hero {
 }
 .cta-overlay h2 {
   font-family: var(--font-heading);
-  font-size: 2.5rem; color: #fff; margin-bottom:1rem;
+  font-size: 2.5rem; color: #fff; margin-bottom:1rem; margin-left: 20px;
 }
 
 /* BENEFITS */
@@ -208,7 +208,7 @@ body.dark .hero {
 }
 .benefit-grid h3 {
   font-family: var(--font-heading);
-  font-size: 1.125rem; margin-bottom:.5rem;
+  font-size: 1.125rem; margin-bottom:.5rem; margin-left: 20px;
 }
 .benefit-grid p { font-size:1rem; }
 
